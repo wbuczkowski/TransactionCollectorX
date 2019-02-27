@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows.Forms;
-using System.Drawing;
-using System.Threading.Tasks;
-using Windows.Devices;
 using Windows.Devices.Enumeration;
-using TransactionCollectorX.Properties;
 
 namespace TransactionCollectorX
 {
@@ -26,19 +21,23 @@ namespace TransactionCollectorX
             ToolStripSeparator sep;
 
             // Refresh.
-            item = new ToolStripMenuItem();
-            item.Text = "Rescan";
+            item = new ToolStripMenuItem
+            {
+                Text = "Rescan",
+                // item.Image = SystemIcons.Information.ToBitmap();
+                Image = Properties.Resources.Rescan
+            };
             item.Click += new EventHandler(Rescan_Click);
-            // item.Image = SystemIcons.Information.ToBitmap();
-            item.Image = Properties.Resources.Rescan;
             menu.Items.Add(item);
 
             // About.
-            item = new ToolStripMenuItem();
-            item.Text = "About";
+            item = new ToolStripMenuItem
+            {
+                Text = "About",
+                // item.Image = SystemIcons.Information.ToBitmap();
+                Image = Properties.Resources.About
+            };
             item.Click += new EventHandler(About_Click);
-            // item.Image = SystemIcons.Information.ToBitmap();
-            item.Image = Properties.Resources.About;
             menu.Items.Add(item);
 
             // Separator.
@@ -46,11 +45,13 @@ namespace TransactionCollectorX
             menu.Items.Add(sep);
 
             // Exit.
-            item = new ToolStripMenuItem();
-            item.Text = "Exit";
+            item = new ToolStripMenuItem
+            {
+                Text = "Exit",
+                // item.Image = SystemIcons.Error.ToBitmap();
+                Image = Properties.Resources.Exit
+            };
             item.Click += new System.EventHandler(Exit_Click);
-            // item.Image = SystemIcons.Error.ToBitmap();
-            item.Image = Properties.Resources.Exit;
             menu.Items.Add(item);
 
             return menu;
@@ -63,7 +64,7 @@ namespace TransactionCollectorX
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         void About_Click(object sender, EventArgs e)
         {
-            if (Program.f1.Visible) { Program.f1.Hide(); } else { Program.f1.Show(); }
+            if (Program.F1.Visible) { Program.F1.Hide(); } else { Program.F1.Show(); }
         }
 
         /// <summary>

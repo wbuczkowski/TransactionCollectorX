@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace TransactionCollectorX
@@ -11,7 +9,7 @@ namespace TransactionCollectorX
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        public static Form1 f1 = null;
+        public static Form1 F1 = null;
 
         [STAThread]
         static void Main()
@@ -28,9 +26,12 @@ namespace TransactionCollectorX
                 }
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                f1 = new Form1();
+                F1 = new Form1
+                {
+                    Text = typeof(Program).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyTitleAttribute>()?.Title
+                };
                 // Make sure the application runs!
-                Application.Run(f1);
+                Application.Run(F1);
             }
         }
     }

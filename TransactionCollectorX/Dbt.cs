@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Runtime.InteropServices;
 
 class Dbt
@@ -50,11 +48,23 @@ class Dbt
 
     #region DLL Imports
 
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    public static extern IntPtr RegisterDeviceNotification(IntPtr hRecipient, IntPtr NotificationFilter, uint Flags);
+    public static IntPtr RegisterDeviceNotification(IntPtr hRecipient, IntPtr NotificationFilter, uint Flags)
+    {
+        return NativeMethods.RegisterDeviceNotification(hRecipient, NotificationFilter, Flags);
+    }
 
-    [DllImport("user32.dll")]
-    public static extern uint UnregisterDeviceNotification(IntPtr Handle);
+    public static uint UnregisterDeviceNotification(IntPtr Handle)
+    {
+        return UnregisterDeviceNotification(Handle);
+    }
 
+    internal static class NativeMethods
+    {
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern IntPtr RegisterDeviceNotification(IntPtr hRecipient, IntPtr NotificationFilter, uint Flags);
+
+        [DllImport("user32.dll")]
+        public static extern uint UnregisterDeviceNotification(IntPtr Handle);
+    }
     #endregion
 }

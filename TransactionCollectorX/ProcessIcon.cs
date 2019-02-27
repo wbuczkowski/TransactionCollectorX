@@ -10,12 +10,12 @@ namespace TransactionCollectorX
     /// <summary>
     /// 
     /// </summary>
-    public class ProcessIcon : IDisposable
+    public sealed class ProcessIcon : IDisposable
     {
         /// <summary>
         /// The NotifyIcon object.
         /// </summary>
-        NotifyIcon ni;
+        NotifyIcon NI;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProcessIcon"/> class.
@@ -23,7 +23,7 @@ namespace TransactionCollectorX
         public ProcessIcon()
         {
             // Instantiate the NotifyIcon object.
-            ni = new NotifyIcon();
+            NI = new NotifyIcon();
         }
 
         /// <summary>
@@ -32,21 +32,21 @@ namespace TransactionCollectorX
         public void Display()
         {
             // Put the icon in the system tray and allow it react to mouse clicks.			
-            ni.MouseClick += new MouseEventHandler(ni_MouseClick);
-            ni.Icon = Resources.AppIcon;
-            ni.Text = typeof(Program).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyTitleAttribute>()?.Title;
-            ni.Visible = true;
+            NI.MouseClick += new MouseEventHandler(NI_MouseClick);
+            NI.Icon = Resources.AppIcon;
+            NI.Text = typeof(Program).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyTitleAttribute>()?.Title;
+            NI.Visible = true;
 
             // Attach a context menu.
-            ni.ContextMenuStrip = new ContextMenu().Create();
+            NI.ContextMenuStrip = new ContextMenu().Create();
         }
 
         public void Show(string text)
         {
-            ni.BalloonTipTitle = typeof(Program).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyTitleAttribute>()?.Title;
-            ni.BalloonTipText = text;
-            ni.BalloonTipIcon = ToolTipIcon.Info;
-            ni.ShowBalloonTip(30000);
+            NI.BalloonTipTitle = typeof(Program).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyTitleAttribute>()?.Title;
+            NI.BalloonTipText = text;
+            NI.BalloonTipIcon = ToolTipIcon.Info;
+            NI.ShowBalloonTip(30000);
         }
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources
@@ -54,21 +54,21 @@ namespace TransactionCollectorX
         public void Dispose()
         {
             // When the application closes, this will remove the icon from the system tray immediately.
-            ni.Dispose();
+            NI.Dispose();
         }
 
         /// <summary>
-        /// Handles the MouseClick event of the ni control.
+        /// Handles the MouseClick event of the NI control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.Windows.Forms.MouseEventArgs"/> instance containing the event data.</param>
-        void ni_MouseClick(object sender, MouseEventArgs e)
+        void NI_MouseClick(object sender, MouseEventArgs e)
         {
             // Handle mouse button clicks.
             if (e.Button == MouseButtons.Left)
             {
                 // Toggle main form's visibility
-                if (Program.f1.Visible) { Program.f1.Hide(); } else { Program.f1.Show(); }
+                if (Program.F1.Visible) { Program.F1.Hide(); } else { Program.F1.Show(); }
             }
         }
     }

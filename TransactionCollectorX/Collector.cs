@@ -2,15 +2,13 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.Storage;
-using Windows.Storage.Pickers;
-using Windows.Storage.Streams;
 using Windows.Devices.Portable;
 
 namespace TransactionCollectorX
 {
     class Collector : IDisposable
     {
-        string devicePath;
+        readonly string devicePath;
 
         public Collector(string devicePath) => this.devicePath = devicePath;
 
@@ -23,13 +21,13 @@ namespace TransactionCollectorX
                 var dataFile = await FindSourceFile();
                 if (dataFile != null)
                 {
-                    Program.f1.pi.Show("Found \"scandata.txt\" file");
+                    Program.F1.pi.Show("Found \"scandata.txt\" file");
                     var data = await ReadSourceFile(dataFile);
                     if (data != null && await WriteDestinationFile(data)) { PurgeSourceFile(dataFile); }
-                    Program.f1.pi.Show("Data transferred successfully!");
+                    Program.F1.pi.Show("Data transferred successfully!");
                 }
             }
-            catch (Exception e) { Program.f1.pi.Show("Error: \"" + e.Message + "\""); }
+            catch (Exception e) { Program.F1.pi.Show("Error: \"" + e.Message + "\""); }
         }
 
         private async Task<StorageFile> FindSourceFile()
@@ -37,7 +35,7 @@ namespace TransactionCollectorX
             var removableStorage = StorageDevice.FromId(devicePath);
             if (removableStorage != null)
             {
-                Program.f1.pi.Show("Storage Device \"" + removableStorage.Name + "\" mounted");
+                Program.F1.pi.Show("Storage Device \"" + removableStorage.Name + "\" mounted");
                 var deviceStorages = await removableStorage.GetFoldersAsync();
                 foreach (var deviceStorage in deviceStorages)
                 {
@@ -47,7 +45,7 @@ namespace TransactionCollectorX
                         var appFolder = await deviceStorage.GetFolderAsync("Documents\\TechStore");
                         if (appFolder != null) { return await appFolder.GetFileAsync("scandata.txt"); }
                     }
-                    catch (Exception /* e */) { /* Program.f1.pi.Show("Error: \"" + e.Message + "\""); */ }
+                    catch (Exception /* e */) { /* Program.F1.pi.Show("Error: \"" + e.Message + "\""); */ }
                 }
             }
             return null;
