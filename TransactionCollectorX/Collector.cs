@@ -42,8 +42,10 @@ namespace TransactionCollectorX
                     // try-catch for each, as the folder and file may be not on the first storage
                     try
                     {
-                        var appFolder = await deviceStorage.GetFolderAsync("Documents\\TechStore");
-                        if (appFolder != null) { return await appFolder.GetFileAsync("scandata.txt"); }
+                        var sourcePath = Properties.Settings.Default.SourcePath;
+                        var fileName = Properties.Settings.Default.FileName;
+                        var appFolder = await deviceStorage.GetFolderAsync(sourcePath);
+                        if (appFolder != null) { return await appFolder.GetFileAsync(fileName); }
                     }
                     catch (Exception /* e */) { /* Program.F1.pi.Show("Error: \"" + e.Message + "\""); */ }
                 }
@@ -69,8 +71,8 @@ namespace TransactionCollectorX
         {
             string filePath = null;
             StorageFolder folder = null;
-            string fileName = "scandata.txt";
-            filePath = Properties.Settings.Default.Path;
+            string fileName = Properties.Settings.Default.FileName;
+            filePath = Properties.Settings.Default.DestinationPath;
             try { folder = await StorageFolder.GetFolderFromPathAsync(filePath); }
             catch (Exception) { }
             // for UWP app
@@ -102,7 +104,7 @@ namespace TransactionCollectorX
                     if (folder == null) return null;
                 }
                 // save setting .NET
-                Properties.Settings.Default.Path = folder.Path;
+                Properties.Settings.Default.DestinationPath = folder.Path;
                 Properties.Settings.Default.Save();
                 // save the settings for UWP app
                 // ApplicationDataContainer container;
