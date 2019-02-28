@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Drawing;
-using System.Diagnostics;
 using System.Reflection;
 using System.Windows.Forms;
 using TransactionCollectorX.Properties;
