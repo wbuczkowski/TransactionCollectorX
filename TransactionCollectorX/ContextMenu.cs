@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Windows.Storage;
 using Windows.Devices.Enumeration;
 
 namespace TransactionCollectorX
@@ -40,6 +41,17 @@ namespace TransactionCollectorX
             item.Click += new EventHandler(About_Click);
             menu.Items.Add(item);
 
+            // Select Folder
+            item = new ToolStripMenuItem
+            {
+                Text = "Select Folder",
+                // item.Image = SystemIcons.Information.ToBitmap();
+                //Image = Properties.Resources.About
+            };
+            item.Click += new EventHandler(Folder_Click);
+            menu.Items.Add(item);
+
+
             // Separator.
             sep = new ToolStripSeparator();
             menu.Items.Add(sep);
@@ -65,6 +77,27 @@ namespace TransactionCollectorX
         void About_Click(object sender, EventArgs e)
         {
             if (Program.F1.Visible) { Program.F1.Hide(); } else { Program.F1.Show(); }
+        }
+
+        /// <summary>
+        /// Handles the Click event of the About control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        async void Folder_Click(object sender, EventArgs e)
+        {
+            StorageFolder folder = null;
+            using (var dialog = new FolderBrowserDialog())
+            {
+                DialogResult result = dialog.ShowDialog();
+                // user cancelled - return
+                if (result != DialogResult.OK) return;
+                folder = await StorageFolder.GetFolderFromPathAsync(dialog.SelectedPath);
+                if (folder == null) return;
+            }
+            // save setting .NET
+            Properties.Settings.Default.DestinationPath = folder.Path;
+            Properties.Settings.Default.Save();
         }
 
         /// <summary>
